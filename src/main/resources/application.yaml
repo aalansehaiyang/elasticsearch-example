@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: elasticsearch-example
+
+
+logging:
+  level:
+    root: info
+
+server:
+  port: 8093
+
+elasticsearch:
+  ip: 172.16.10.245
+  port: 9200
+  user:
+  password:
+  connectTimeout: 1000
+  socketTimeout: 40000
+  connectionRequestTimeout: 1000
+  maxConnTotal: 100
+  maxConnPerRoute: 100
+  maxRetryTimeoutMillis: 300000
