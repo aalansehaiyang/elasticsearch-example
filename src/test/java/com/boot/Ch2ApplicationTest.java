@@ -8,6 +8,8 @@ import com.onlyone.es.repository.ProductRepository;
 import org.assertj.core.util.Lists;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import static org.elasticsearch.search.sort.SortOrder.DESC;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -67,9 +71,14 @@ public class Ch2ApplicationTest {
     @Test
     public void testQueryByName() {
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        // 按名字搜索
         boolQueryBuilder.must(QueryBuilders.matchQuery("name", "苹果"));
+        List<Long> ids = Lists.list(1L, 4L);
+        boolQueryBuilder.must(QueryBuilders.termsQuery("id", ids));
         NativeSearchQueryBuilder searchQueryBuilder = new NativeSearchQueryBuilder()
                 .withQuery(boolQueryBuilder);
+        // 价格倒序
+        searchQueryBuilder.withSort(SortBuilders.fieldSort("price").order(DESC));
         List<ProductModel> activityDocumentList = productRepository.search(searchQueryBuilder.build()).getContent();
         System.out.println(JSON.toJSONString(activityDocumentList));
     }
