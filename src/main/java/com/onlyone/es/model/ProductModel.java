@@ -19,10 +19,12 @@ public class ProductModel {
 
     @Id
     private Long id;
+    private Long productId;
     private String name;
     private String desc;
     private Long price;
     private String producer;
     private List<String> tags;
     private List<Long> shopId;
+    private String city;
 }

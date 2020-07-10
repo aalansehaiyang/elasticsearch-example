@@ -17,42 +17,51 @@ GET /ecommerce/product/_search
  
 PUT /ecommerce/product/1
 {
+    "productId" : 1,
     "name" : "苹果手机",
     "desc" :  "可以打电话、发短信、玩游戏",
     "price" :  6000,
     "producer" : "美国",
     "tags": [ "手机", "apple" ],
-    "shopId":[10,11,12]
+    "shopId":[10,11,12],
+    "city":"12 13 14 156 134 343 123 164"
 }
 
 PUT /ecommerce/product/2
 {
+    "productId" : 2,
     "name" : "苹果",
     "desc" :  "产地烟台，有红又大的红富士苹果",
     "price" :  10,
     "producer" : "烟台",
     "tags": [ "苹果", "水果" ],
-    "shopId":[10]
+    "shopId":[10],
+    "city":"12 14 13  16  134 343 17"
 }
 
 PUT /ecommerce/product/3
 {
+    "productId" : 3,
     "name" : "小米手机",
     "desc" :  "小米10系列，新一代LPDDR5内存，突破5G性能极限；90Hz流速屏，对称式立体声，突破5G影音极限",
     "price" :  3000,
     "producer" :  "中国",
     "tags": [ "手机" ],
-    "shopId":[10,11,12,13]
+    "shopId":[10,11,12,13],
+    "city":"12 14 13  16  18 34 56 17 178"
 }
 
 PUT /ecommerce/product/4
 {
+    "productId" : 4,
     "name" : "手机测试数据苹果",
     "desc" :  "可以打电话、发短信、玩游戏",
     "price" :  9000,
     "producer" : "美国",
     "tags": [ "手机1", "apple" ],
-    "shopId":[10,11,12]
+    "shopId":[10,11,12],
+    "city":"1 3  10 11 14  16  18  56 17 "
+
 }
 
 GET /ecommerce/product/2
@@ -78,7 +87,7 @@ GET /ecommerce/product/_search
    "query" : {
       "match_phrase" : {
        "name":{
-         "query": "苹果手机",
+         "query": "手机小米",
          "slop": 100
        }
       }
@@ -88,9 +97,24 @@ GET /ecommerce/product/_search
       ],
       "from": 0,
       "size": 2
-      
 }
 
+GET /ecommerce/product/_search
+ {
+   "query" : {
+      "match_phrase" : {
+       "city":{
+         "query": "16   18",
+         "slop": 100
+       }
+      }
+    },
+    "sort" : [
+      { "price" : "asc"}
+      ],
+      "from": 0,
+      "size": 2
+}
 
 GET /ecommerce/product/_search
  {
@@ -98,12 +122,12 @@ GET /ecommerce/product/_search
       "bool" : {
         "must" : {
           "match" : {
-            "name" : "苹果"
+            "name" : "手机"
         }
     },
     "filter" : {
       "range" : {
-        "price": {"gt" : 100}
+        "price": {"gt" : 1000}
           }
         }
       }
@@ -184,6 +208,7 @@ POST /othermovies/_search
     }
   }
 }
+
 
 
 ```

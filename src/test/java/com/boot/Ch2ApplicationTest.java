@@ -95,4 +95,15 @@ public class Ch2ApplicationTest {
     }
 
 
+    @Test
+    public void testQueryByCity(){
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        // 对city 按whitespace分词，并命中所有的词语
+        boolQueryBuilder.must(QueryBuilders.matchPhraseQuery("city","14   13  123 164").slop(1000));
+        NativeSearchQueryBuilder searchQueryBuilder = new NativeSearchQueryBuilder()
+                .withQuery(boolQueryBuilder);
+        List<ProductModel> activityDocumentList = productRepository.search(searchQueryBuilder.build()).getContent();
+        System.out.println(JSON.toJSONString(activityDocumentList));
+    }
+
 }
